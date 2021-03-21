@@ -1,20 +1,43 @@
 import './Menu.css';
 import MenuItem from './MenuItem';
+import { useState } from 'react';
 
-const Menu = () => {
+const menuItems = [
+  { id: 1, text: 'Going to 1' },
+  { id: 2, text: 'Going to 2' },
+  { id: 3, text: 'Going to 3' },
+  { id: 4, text: 'Going to 4' },
+  { id: 5, text: 'Going to 5' },
+  { id: 6, text: 'Going to 6' },
+  { id: 7, text: 'Going to 7' },
+  { id: 8, text: 'Going to 8' },
+  { id: 9, text: 'Going to 9' },
+  { id: 10, text: 'Going to10' },
+  { id: 11, text: 'Going to 11' },
+]
+const Menu = ({
+  onMenuItemClick
+}) => {
+  const [currentItem, setCurrentItem] = useState();
+
+  const menuItemClickHandler = (id) => {
+    setCurrentItem(id);
+    onMenuItemClick(id);
+  }
+  console.log(currentItem);
+
   return (
     <aside className="menu">
-      <MenuItem>Going to 1</MenuItem>
-      <MenuItem>Going to 2</MenuItem>
-      <MenuItem>Going to 3</MenuItem>
-      <MenuItem>Going to 4</MenuItem>
-      <MenuItem>Going to 5</MenuItem>
-      <MenuItem>Going to 6</MenuItem>
-      <MenuItem>Going to 7</MenuItem>
-      <MenuItem>Going to 8</MenuItem>
-      <MenuItem>Going to 9</MenuItem>
-      <MenuItem>Going to 10</MenuItem>
-      <MenuItem>Going to 11</MenuItem>
+      {menuItems.map(x =>
+        <MenuItem
+          key={x.id}
+          id={x.id}
+          isSelected={x.id === currentItem}
+          onClick={menuItemClickHandler}
+        >
+          {x.text}
+        </MenuItem>
+      )}
     </aside>
   );
 }

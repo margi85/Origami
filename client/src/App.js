@@ -12,29 +12,50 @@ class App extends Component {
     super(props);
 
     this.state = {
-      posts: []
+      posts: [],
+      selectedPost: null
     }
+
+    this.onMenuItemClick = this.onMenuItemClick.bind(this);
   }
 
   componentDidMount() {
     postService.getAll()
       .then(posts => {
-        this.setState({posts})
+        this.setState({ posts })
       });
+  }
+
+  onMenuItemClick(id) {
+    this.setState({ selectedPost: id })
+  }
+
+  getPosts() {
+    if (!this.state.selectedPost) {
+      return this.state.posts;
+    } else {
+      let result = [this.state.posts.find(x => x.id === this.state.selectedPost)];
+      console.log(result);
+      return result;
+    }
   }
 
   render() {
     return (
       <div className={style.app}>
-      <Header />
+        <Header />
 
-      <div className={style.container}>
-        <Menu />
+        <div className={style.container}>
+          <Menu
+            onMenuItemClick={this.onMenuItemClick}
+          />
 
-        <Main posts={this.state.posts} />
+          <Main
+            posts={this.getPosts()}
+          />
+        </div>
+
       </div>
-
-    </div>
     );
   }
 }
